@@ -10,8 +10,6 @@ services:
       - .:/usr/local/app/hello-cors
 
   php-fpm:
-    build:
-      context: .
-      dockerfile: php-fpm.dockerfile
+    build: api
     volumes:
-      - .:/usr/local/app/hello-cors
+      - ./api:/usr/local/app/hello-cors/api
