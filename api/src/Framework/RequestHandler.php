@@ -21,26 +21,35 @@ class RequestHandler
         $matcher = new UrlMatcher($this->routes, $context);
 
         try {
-            $parameters = $matcher->match($_SERVER['REQUEST_URI'] ?? '');
-            return $this->call_matched_parameters($parameters, $request);
-        } catch (ResourceNotFoundException $e) {
             try {
-                $parameters = $matcher->match('/404');
+                $parameters = $matcher->match($_SERVER['REQUEST_URI'] ?? '');
                 return $this->call_matched_parameters($parameters, $request);
             } catch (ResourceNotFoundException $e) {
-                header("Content-type: text/plain");
-                header("HTTP/1.0 404 Not Found");
-                echo '404 Not found' . PHP_EOL;
+                try {
+                    $parameters = $matcher->match('/404');
+                    return $this->call_matched_parameters($parameters, $request);
+                } catch (ResourceNotFoundException $e) {
+                    header("Content-type: text/plain");
+                    header("HTTP/1.0 404 Not Found");
+                    echo '404 Not found' . PHP_EOL;
+                }
+            } catch (\Exception $e) {
+                try {
+                    $parameters = $matcher->match('/500');
+                    file_put_contents('php://stderr', $e->getMessage());
+                    return $this->call_matched_parameters($parameters, $request);
+                } catch (ResourceNotFoundException $e) {
+                    header("Content-type: text/plain");
+                    header("HTTP/1.0 500 Internal Server Error");
+                    echo '500 Internal Server Error' . PHP_EOL;
+                    file_put_contents('php://stderr', $e->getMessage());
+                }
             }
         } catch (\Exception $e) {
-            try {
-                $parameters = $matcher->match('/500');
-                return $this->call_matched_parameters($parameters, $request);
-            } catch (ResourceNotFoundException $e) {
-                header("Content-type: text/plain");
-                header("HTTP/1.0 500 Internal Server Error");
-                echo '500 Internal Server Error' . PHP_EOL;
-            }
+            header("Content-type: text/plain");
+            header("HTTP/1.0 500 Internal Server Error");
+            echo '500 Internal Server Error' . PHP_EOL;
+            file_put_contents('php://stderr', $e->getMessage());
         }
     }
 

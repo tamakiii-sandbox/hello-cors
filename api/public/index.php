@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 $autoload = require __DIR__ . '/../vendor/autoload.php';
 
 $routes = new RouteCollection();
-foreach (require __DIR__ . '/../config/routing.php' as $key => $route) {
+foreach (require __DIR__ . '/../config/routes.php' as $key => $route) {
     $routes->add($key, $route);
 }
 

@@ -1,15 +1,21 @@
 <?php
 namespace App\Controller;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 class HttpStatusController
 {
-    public function notFound()
+    public static function notFound()
     {
-        return 'not found 404';
+        return new JsonResponse([
+            'message' => '404 Not found'
+        ]);
     }
 
-    public function internalServerError()
+    public static function internalServerError()
     {
-        return 'server error 500';
+        return new JsonResponse([
+            'message' => '500 Internal Server Error'
+        ]);
     }
 }
