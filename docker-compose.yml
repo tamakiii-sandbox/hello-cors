@@ -1,0 +1,10 @@
+version: "3.7"
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx.dockerfile
+    ports:
+      - ${NGINX_PORT:-8080}:80
+    volumes:
+      - .:/usr/local/app/hello-cors
