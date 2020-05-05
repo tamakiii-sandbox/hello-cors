@@ -4,6 +4,7 @@ COPY --from=composer:1.10.5 /usr/bin/composer /usr/bin/composer
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+      make \
       git \
       && \
     apt-get clean && \
