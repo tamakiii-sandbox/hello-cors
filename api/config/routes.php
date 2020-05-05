@@ -17,11 +17,11 @@ return [
         ->setMethods([Request::METHOD_PUT]),
     'user_delete' => (new Route('/user/delete', ['_controller' => [User\DeleteController::class, 'index']]))
         ->setMethods([Request::METHOD_DELETE]),
-    'all_patch' => (new Route('/{request}', ['_controller' => [CorsController::class, 'index']]))
-        ->setMethods([Request::METHOD_OPTIONS])
-        ->setRequirements([
-            'request' => '.+',
-        ]),
+    // 'all_patch' => (new Route('/{request}', ['_controller' => [CorsController::class, 'index']]))
+    //     ->setMethods([Request::METHOD_OPTIONS])
+    //     ->setRequirements([
+    //         'request' => '.+',
+    //     ]),
     'http_not_found' => new Route('/404', ['_controller' => [HttpStatusController::class, 'notFound']]),
     'http_internal_server_error' => new Route('/500', ['_controller' => [HttpStatusController::class, 'internalServerError']]),
 ];
