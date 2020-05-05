@@ -4,6 +4,9 @@ services:
     build:
       context: .
       dockerfile: nginx.dockerfile
+      target: ${ENVIRONMENT:-production-pseudo}
+      args:
+        NODE_HOST: ${NODE_HOST:-node}
     ports:
       - ${NGINX_PORT:-8080}:80
     volumes:
@@ -15,7 +18,9 @@ services:
       - ./api:/usr/local/app/hello-cors/api
 
   node:
-    build: front
+    build:
+      context: front
+      target: ${ENVIRONMENT:-production-pseudo}
     # ports:
     #   - ${NODE_PORT:-8888}:8888
     volumes:
