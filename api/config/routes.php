@@ -5,6 +5,7 @@ use Symfony\Component\Routing\Route;
 use App\Controller\HttpStatusController;
 use App\Controller\IndexController;
 use App\Controller\User;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 return [
@@ -22,6 +23,11 @@ return [
     //     ->setRequirements([
     //         'request' => '.+',
     //     ]),
+    'test_server' => new Route('/test/server', ['_controller' => function() {
+        return new JsonResponse([
+            'server' => $_SERVER,
+        ]);
+    }]),
     'http_not_found' => new Route('/404', ['_controller' => [HttpStatusController::class, 'notFound']]),
     'http_internal_server_error' => new Route('/500', ['_controller' => [HttpStatusController::class, 'internalServerError']]),
 ];
