@@ -10,6 +10,12 @@ install: \
 dependencies:
 	type yarn > /dev/null
 
+build: \
+	dist
+
+dist:
+	npx --no-install webpack --mode production
+
 build-dev:
 	npx --no-install webpack-dev-server
 
@@ -21,3 +27,4 @@ node_modules:
 
 clean:
 	rm -rf node_modules
+	rm -rf dist

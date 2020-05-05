@@ -10,4 +10,5 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/
 
+# ENTRYPOINT ["make", "build"]
 ENTRYPOINT ["make", "build-dev"]
