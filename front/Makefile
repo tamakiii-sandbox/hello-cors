@@ -11,7 +11,7 @@ dependencies:
 	type yarn > /dev/null
 
 build-dev:
-	npx --no-install webpack-dev-server --host 0.0.0.0 --port 8888 --disable-host-check
+	npx --no-install webpack-dev-server
 
 check:
 	npx --no-install tsc -p . --noEmit

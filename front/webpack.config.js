@@ -20,9 +20,23 @@ module.exports = {
       },
     ],
   },
-  entry: path.join(__dirname, "src/index.tsx"),
+  entry: {
+    main: path.join(__dirname, "src/index.tsx"),
+  },
+  output: {
+    filename: '[name].js',
+    path: path.join(__dirname, "dist"),
+    publicPath: "/dist/"
+  },
   resolve: {
     extensions: [".js", ".ts", ".tsx", ".json", ".mjs", ".wasm"],
+  },
+  devServer: {
+    host: '0.0.0.0',
+    port: 8888,
+    sockPort: 8080,
+    sockPath: '/dist/sockjs-node',
+    disableHostCheck: true,
   },
   plugins: [
     new HTMLPlugin({
