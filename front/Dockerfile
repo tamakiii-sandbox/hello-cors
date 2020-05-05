@@ -1,5 +1,7 @@
 FROM node:14.1.0
 
+WORKDIR /usr/local/app/hello-cors/front
+
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
       make \
@@ -7,7 +9,5 @@ RUN apt-get update && \
       && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/
-
-WORKDIR /usr/local/app/hello-cors/front
 
 ENTRYPOINT ["make", "build-dev"]
