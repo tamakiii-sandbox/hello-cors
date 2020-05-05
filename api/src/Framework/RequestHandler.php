@@ -29,9 +29,9 @@ class RequestHandler
                     $parameters = $matcher->match('/404');
                     return $this->call_matched_parameters($parameters, $request);
                 } catch (ResourceNotFoundException $e) {
-                    header("Content-type: text/plain");
+                    header("Content-type: application/json");
                     header("HTTP/1.0 404 Not Found");
-                    echo '404 Not found' . PHP_EOL;
+                    echo '{"message": "404 Not Found"}' . PHP_EOL;
                 }
             } catch (\Exception $e) {
                 try {
@@ -39,16 +39,16 @@ class RequestHandler
                     file_put_contents('php://stderr', $e->getMessage());
                     return $this->call_matched_parameters($parameters, $request);
                 } catch (ResourceNotFoundException $e) {
-                    header("Content-type: text/plain");
+                    header("Content-type: application/json");
                     header("HTTP/1.0 500 Internal Server Error");
-                    echo '500 Internal Server Error' . PHP_EOL;
+                    echo '{"message": "500 Internal Server Error"}' . PHP_EOL;
                     file_put_contents('php://stderr', $e->getMessage());
                 }
             }
         } catch (\Exception $e) {
-            header("Content-type: text/plain");
+            header("Content-type: application/json");
             header("HTTP/1.0 500 Internal Server Error");
-            echo '500 Internal Server Error' . PHP_EOL;
+            echo '{"message": "500 Internal Server Error"}' . PHP_EOL;
             file_put_contents('php://stderr', $e->getMessage());
         }
     }
