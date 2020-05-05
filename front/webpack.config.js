@@ -21,7 +21,7 @@ module.exports = {
     ],
   },
   entry: {
-    main: path.join(__dirname, "src/index.tsx"),
+    main: path.join(__dirname, "src/main.tsx"),
   },
   output: {
     filename: '[name].js',
