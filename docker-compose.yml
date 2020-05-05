@@ -16,5 +16,7 @@ services:
 
   node:
     build: front
+    ports:
+      - ${NODE_PORT:-8888}:8888
     volumes:
       - ./front:/usr/local/app/hello-cors/front
