@@ -8,3 +8,10 @@ services:
       - ${NGINX_PORT:-8080}:80
     volumes:
       - .:/usr/local/app/hello-cors
+
+  php-fpm:
+    build:
+      context: .
+      dockerfile: php-fpm.dockerfile
+    volumes:
+      - .:/usr/local/app/hello-cors
