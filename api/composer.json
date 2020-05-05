@@ -1,4 +1,6 @@
 {
     "name": "tamakiii-sandbox/hello-cors",
-    "require": {}
+    "require": {
+        "symfony/routing": "^5.0"
+    }
 }
