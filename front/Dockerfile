@@ -9,3 +9,5 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/
 
 WORKDIR /usr/local/app/hello-cors/front
+
+ENTRYPOINT ["make", "build-dev"]
