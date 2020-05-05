@@ -13,3 +13,8 @@ services:
     build: api
     volumes:
       - ./api:/usr/local/app/hello-cors/api
+
+  node:
+    build: front
+    volumes:
+      - ./front:/usr/local/app/hello-cors/front
