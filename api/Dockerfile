@@ -12,3 +12,7 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/
 
+COPY ./etc/users.test.json /var/tmp/users.json
+
+RUN chown root:www-data /var/tmp/users.json && \
+    chmod g+w /var/tmp/users.json

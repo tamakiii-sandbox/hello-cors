@@ -18,4 +18,4 @@ $context->fromRequest($request);
 
 $handler = new RequestHandler($routes);
 $response = $handler->handle($request, $context);
-$response->send();
+$response && $response->send();

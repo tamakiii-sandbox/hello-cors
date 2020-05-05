@@ -4,6 +4,7 @@ namespace App\Framework;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
@@ -32,6 +33,17 @@ class RequestHandler
                     header("Content-type: application/json");
                     header("HTTP/1.0 404 Not Found");
                     echo '{"message": "404 Not Found"}' . PHP_EOL;
+                }
+            } catch (MethodNotAllowedException $e) {
+                try {
+                    $parameters = $matcher->match('/405');
+                    file_put_contents('php://stderr', $e->getMessage());
+                    return $this->call_matched_parameters($parameters, $request);
+                } catch (ResourceNotFoundException $e) {
+                    header("Content-type: application/json");
+                    header("HTTP/1.0 405 Method Not Allowed");
+                    echo '{"message": "405 Method Not Allowed"}' . PHP_EOL;
+                    file_put_contents('php://stderr', $e->getMessage());
                 }
             } catch (\Exception $e) {
                 try {
