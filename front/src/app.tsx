@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import CreateForm from "./component/user/CreateForm";
+import DeleteForm from "./component/user/DeleteForm";
+import * as api from "./api/user";
 
 interface User {
   id: number;
@@ -30,17 +33,24 @@ export default function App() {
       }
     })();
   }, []);
+  console.log(users.map);
 
   return (
     <>
-      <h1>Hello world</h1>
+      <h1>Hello users</h1>
       {users.length === 0 ? (
         <strong>Loading...</strong>
       ) : (
         <ul>
-          {users.map((v, k) => (<li key={k}>{v.name}(id: {v.id})</li>))}
+          {Array.from(users, (v, k) => (<li key={k}>{v.name}(id: {v.id})</li>))}
         </ul>
       )}
+      <hr />
+      <h2>Create new User</h2>
+      <CreateForm create={api.create} />
+      <hr />
+      <h2>Delete User</h2>
+      <DeleteForm remove={api.remove} users={users} />
     </>
   )
 }
