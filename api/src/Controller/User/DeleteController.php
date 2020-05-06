@@ -15,14 +15,22 @@ class DeleteController
 
         if (empty($json['id'])) {
             return new JsonResponse([
-                'error' => [
+                'errors' => [
                     ['message' => 'name must be specified']
                 ]
             ]);
         }
 
         $repository = new UserRepository;
-        $repository->delete($json['id']);
+        if (!$user = $repository->find($json['id'])) {
+            return new JsonResponse([
+                'errors' => [
+                    ['message' => 'User not found']
+                ]
+            ]);
+        }
+
+        $repository->delete($user['id']);
 
         return IndexController::index();
     }

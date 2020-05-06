@@ -3,9 +3,26 @@ namespace App\Orm\Repository;
 
 class UserRepository
 {
-    public function findAll()
+    public function findAll(): ?array
     {
-        return self::readFromFile()['users'];
+        return array_values(self::readFromFile()['users']);
+    }
+
+    public function find($id): ?array
+    {
+        if (is_array($id)) {
+            if (empty($id['id'])) {
+                throw new \UnexpectedValueException('Need id');
+            }
+            $id = $id['id'];
+        }
+
+        foreach ($this->findAll() as $user) {
+            $user['id'] === (int)$id;
+            return $user;
+        }
+
+        return null;
     }
 
     public function add(array $user): bool
@@ -34,15 +51,15 @@ class UserRepository
 
     public function delete(int $id): bool
     {
-        $users = self::findAll();
+        $users = array_filter(self::findAll(), function($user) use ($id) {
+            // file_put_contents('php://stdout', "${user['id']} !== ${id}" . PHP_EOL);
+            return (int)$user['id'] !== $id;
+        });
 
-        if (!$key = array_search($id, array_column($users, 'id'))) {
-            throw new \UnexpectedValueException('User not found');
-        }
+        // file_put_contents('php://stdout', "id: ${id}" . PHP_EOL);
+        // file_put_contents('php://stdout', print_r($users, true));
 
-        unset($users[$key]);
-
-        return self::writeToFile(['users' => $users]);
+        return self::writeToFile(['users' => array_values($users)]);
     }
 
     private static function readFromFile(): array

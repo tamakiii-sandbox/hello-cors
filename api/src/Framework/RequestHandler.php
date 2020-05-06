@@ -30,8 +30,10 @@ class RequestHandler
                     $parameters = $matcher->match('/404');
                     return $this->call_matched_parameters($parameters, $request);
                 } catch (ResourceNotFoundException $e) {
+                    http_response_code(404);
                     header("Content-type: application/json");
                     header("HTTP/1.0 404 Not Found");
+                    header("X-Http-Response-Code: 404");
                     echo '{"message": "404 Not Found"}' . PHP_EOL;
                 }
             } catch (MethodNotAllowedException $e) {
@@ -40,8 +42,10 @@ class RequestHandler
                     file_put_contents('php://stderr', $e->getMessage());
                     return $this->call_matched_parameters($parameters, $request);
                 } catch (ResourceNotFoundException $e) {
+                    http_response_code(405);
                     header("Content-type: application/json");
                     header("HTTP/1.0 405 Method Not Allowed");
+                    header("X-Http-Response-Code: 405");
                     echo '{"message": "405 Method Not Allowed"}' . PHP_EOL;
                     file_put_contents('php://stderr', $e->getMessage());
                 }
@@ -51,15 +55,19 @@ class RequestHandler
                     file_put_contents('php://stderr', $e->getMessage());
                     return $this->call_matched_parameters($parameters, $request);
                 } catch (ResourceNotFoundException $e) {
+                    http_response_code(500);
                     header("Content-type: application/json");
                     header("HTTP/1.0 500 Internal Server Error");
+                    header("X-Http-Response-Code: 500");
                     echo '{"message": "500 Internal Server Error"}' . PHP_EOL;
                     file_put_contents('php://stderr', $e->getMessage());
                 }
             }
         } catch (\Exception $e) {
+            http_response_code(500);
             header("Content-type: application/json");
             header("HTTP/1.0 500 Internal Server Error");
+            header("X-Http-Response-Code: 500");
             echo '{"message": "500 Internal Server Error"}' . PHP_EOL;
             file_put_contents('php://stderr', $e->getMessage());
         }
