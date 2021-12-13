@@ -1,0 +1,5 @@
+#!/usr/bin/env php
+<?php
+
+$autoload = require __DIR__ . '/../vendor/autoload.php';
+echo json_encode($autoload->getPrefixesPsr4(), JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES);
